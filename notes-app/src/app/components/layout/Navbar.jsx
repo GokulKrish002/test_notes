@@ -3,10 +3,17 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import useAuthStore from '@/app/hooks/useAuth';
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
   const pathname = usePathname();
   const { isAuthenticated, signOut } = useAuthStore();
+
+  const handleSignOut = () => {
+    signOut();
+    const router = useRouter();
+    router.push('/auth/signin');
+  }
 
   return (
     <nav>
@@ -20,7 +27,7 @@ const Navbar = () => {
             <Link href="/">
               <span className={pathname === '/' ? 'active' : ''}>Notes</span>
             </Link>
-            <button onClick={signOut} className='ml-4'>Sign Out</button>
+            <button onClick={handleSignOut} className='ml-4'>Sign Out</button>
           </div>
         ) : (
           <div>
